@@ -36,17 +36,18 @@ class RedactingFormatter(logging.Formatter):
         txt = filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
         return txt
 
-    def get_db() -> mysql.connector.connection.MySQLConnection:
-        """ Creates a database connector. """
-        db_host = os.getenv("PERSONAL_DATA_DB_HOST", "Localhost")
-        db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
-        db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-        db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-        connection = mysql.connector.connect(
-            host=db_host,
-            port=3306,
-            user=db_user,
-            password=db_pwd,
-            database=db_name
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ Creates a database connector. """
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "Localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    connection = mysql.connector.connect(
+        host=db_host,
+        port=3306,
+        user=db_user,
+        password=db_pwd,
+        database=db_name
         )
-        return connection
+    return connection
