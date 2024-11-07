@@ -35,7 +35,7 @@ class RedactingFormatter(logging.Formatter):
         msg = super(RedactingFormatter, self).format(record)
         txt = filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
         return txt
-    
+
     def get_db() -> mysql.connector.connection.MySQLConnection:
         """ Creates a database connector. """
         db_host = os.getenv("PERSONAL_DATA_DB_HOST", "Localhost")
