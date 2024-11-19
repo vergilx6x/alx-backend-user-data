@@ -79,3 +79,19 @@ class DB:
             raise NoResultFound()
 
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Updates an user which it's 'id' is passed as an argument,
+        and update the user's attriutes as passed as arguments,
+        and commit to the database."""
+        user = self._session.query(User).filter_by(user_id).first()
+        if not user:
+            return NoResultFound
+
+        for key, value in kwargs:
+            if not hasattr(User, key):
+                raise ValueError
+
+            setattr(user, key, value)
+
+        self._session.commit()
