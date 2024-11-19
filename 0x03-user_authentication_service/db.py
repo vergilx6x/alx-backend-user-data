@@ -69,5 +69,13 @@ class DB:
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
+        """ Finding an user object based on the passed arguments"""
+        for key in kwargs:
+            if not hasattr(User, key):
+                raise InvalidRequestError()
 
-        return
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound()
+
+        return user
