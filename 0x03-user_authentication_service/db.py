@@ -84,11 +84,11 @@ class DB:
         """ Updates an user which it's 'id' is passed as an argument,
         and update the user's attriutes as passed as arguments,
         and commit to the database."""
-        user = self._session.query(User).filter_by(user_id).first()
+        user = self.find_user_by(id=user_id)
         if not user:
             return NoResultFound
 
-        for key, value in kwargs:
+        for key, value in kwargs.items():
             if not hasattr(User, key):
                 raise ValueError
 
