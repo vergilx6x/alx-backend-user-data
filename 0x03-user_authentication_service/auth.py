@@ -35,8 +35,7 @@ class Auth:
         password: User password,
         and register a user by adding them into the database"""
         try:
-            user = self._db.find_user_by(email=email)
-
+            self._db.find_user_by(email=email)
         except NoResultFound:
             password = _hash_password(password)
             return self._db.add_user(email, password)
