@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Basic flask app with a signle route:
 "GET - "/" route."""
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 app = Flask(__name__)
