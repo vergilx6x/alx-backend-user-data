@@ -27,6 +27,7 @@ def users() -> str:
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
+
 @app.route("/sessions/", methods=["POST"], strict_slashes=False)
 def login() -> str:
     """ Creates a new session for an User,
@@ -39,6 +40,7 @@ def login() -> str:
     response = jsonify({"email": "<user email>", "message": "logged in"})
     response.set_cookie("session_id", session_id)
     return response
+
 
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
 def logout() -> str:
@@ -103,7 +105,7 @@ def update_password() -> str:
     if not is_password_changed:
         abort(403)
     return jsonify({"email": email, "message": "Password updated"})
-    
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
