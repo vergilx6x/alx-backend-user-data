@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-""" Basic flask app with a signle route:
-"GET - "/" route."""
+"""A simple Flask app with user authentication features.
+"""
 from flask import Flask, jsonify, request, abort, redirect
+
 from auth import Auth
+
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -10,16 +12,19 @@ AUTH = Auth()
 
 @app.route("/", methods=["GET"], strict_slashes=False)
 def index() -> str:
-    """ Simple flaks route that return a string."""
+    """GET /
+    Return:
+        - The home page's payload.
+    """
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/users/", methods=["POST"], strict_slashes=False)
+@app.route("/users", methods=["POST"], strict_slashes=False)
 def users() -> str:
-    """ Expects two form data fields
-    "email: user email,
-    password: user password,
-    return a JSON payload."""
+    """POST /users
+    Return:
+        - The account creation payload.
+    """
     email, password = request.form.get("email"), request.form.get("password")
     try:
         AUTH.register_user(email, password)
@@ -28,16 +33,17 @@ def users() -> str:
         return jsonify({"message": "email already registered"}), 400
 
 
-@app.route("/sessions/", methods=["POST"], strict_slashes=False)
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login() -> str:
-    """ Creates a new session for an User,
-    store the session ID as cookie,
-    return a json payload."""
+    """POST /sessions
+    Return:
+        - The account login payload.
+    """
     email, password = request.form.get("email"), request.form.get("password")
     if not AUTH.valid_login(email, password):
         abort(401)
     session_id = AUTH.create_session(email)
-    response = jsonify({"email": "<user email>", "message": "logged in"})
+    response = jsonify({"email": email, "message": "logged in"})
     response.set_cookie("session_id", session_id)
     return response
 
